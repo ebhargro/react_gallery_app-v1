@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 class Search extends Component {
@@ -13,6 +13,7 @@ class Search extends Component {
     handleSubmit = e => {
         e.preventDefault();
         let path = `/search/${this.state.searchText}`;
+        this.props.history.push(path);
         this.props.onSearch(this.state.searchText);
         e.currentTarget.reset();
         this.props.setLoading(true);

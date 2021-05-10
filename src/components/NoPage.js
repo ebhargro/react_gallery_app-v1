@@ -1,4 +1,4 @@
-import Reacth from 'react';
+import React from 'react';
 
 const NoPage = () => {
     return(
@@ -8,3 +8,5 @@ const NoPage = () => {
         </div>
     )
 }
+
+export default NoPage

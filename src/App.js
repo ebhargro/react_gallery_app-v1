@@ -1,17 +1,24 @@
+//Treehouse Techdegree Unit 7 project
+//Ebony Hargro
+//Aiming for: Exceeds
+
 // importing all componenets
 import React, { Component } from 'react';
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import apiKey from './config';
 import NotFound from './Components/NotFound';
-import SearchForm from './components/Search';
+import Search from './Components/Search';
 import Nav from './Components/Nav';
-import Photo from './Components/Photo';
-import NoPage from './Components/NoPage';
+import PhotoContainer from './Components/PhotoContainer';
+
 
 //Initializing state with app class component
 
 class App extends Component {
-  state = {
+  constructor(){
+    super();
+  
+  this.state = {
     photos: [],
     oceans: [],
     sunrises: [],
@@ -19,16 +26,19 @@ class App extends Component {
     title: '',
     isLoading: true
   };
+}
 
+  //Loading external data when our component gets mounted to the DOM via searchTag
 componentDidMount() {
   this.searchTag();
   this.searchTag('oceans');
   this.searchTag('sunrises');
   this.searchTag('wolves');
 }
-
+// Requesting data from the Flickr API using the Fetch API using the searchTag function
 searchTag = (tag) => {
-  fetch()
+  fetch(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${tag}&per_page=15&format=json&nojsoncallback=1`)
+  //After the fetch method executes the result is returned in JSON format and then the state is updated by passing in a function that takes the JSON data and returns a new state
     .then(res => res.json())
     .then(response => {
       if(tag === 'oceans'){
@@ -49,43 +59,20 @@ searchTag = (tag) => {
           })
         }
         })
+        //Creating an error function that takes the parameter 'error'
       .catch(error => {
         console.log('Error collecting data', error);
       });
       }
 
-
-
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
 manageLoading = (indicator) => {
   this.setState({loading: indicator});
 }
-
+//Rendering the child components of our app and passing them external API data state via props
 render () {
   return(
     <BrowserRouter>
-      <SearchForm onSearch={this.performSearch} tag={this.state.title} setLoading={this.manageLoading}/>
+      <Search onSearch={this.performSearch} tag={this.state.title} setLoading={this.manageLoading}/>
       <Nav/>
       <Switch>
         <Route exact path='/' render= { () =>
