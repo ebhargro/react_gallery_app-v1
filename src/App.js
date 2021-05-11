@@ -43,7 +43,7 @@ searchTag = (tag) => {
     .then(response => {
       if(tag === 'oceans'){
         this.setState({
-          oceans: response.photos.photos,
+          oceans: response.photos.photo,
           loading: false
         })
       } else if (tag === 'sunrises') {
